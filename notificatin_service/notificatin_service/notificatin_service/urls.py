@@ -14,25 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
-
-# auth_service/urls.py and notification_service/urls.py
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view # type: ignore
-from drf_yasg import openapi # type: ignore
-
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Notification API",
-      default_version='v1',
-      description="API documentation for the Notification system",
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
+from notificatin_app.views import NotificationListCreateView, NotificationDetailView
 
 urlpatterns = [
-   
-   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/notifications/', NotificationListCreateView.as_view(), name='notifications_list_create'),
+    path('api/notifications/<uuid:id>/', NotificationDetailView.as_view(), name='notification_detail'),
 ]
